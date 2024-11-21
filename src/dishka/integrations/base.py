@@ -3,6 +3,7 @@ from inspect import (
     Parameter,
     Signature,
     isasyncgenfunction,
+    iscoroutinefunction,
     isgeneratorfunction,
     signature,
 )
@@ -189,7 +190,10 @@ def _async_injection_wrapper(
                 )
                 for name, dep in dependencies.items()
             }
-            return await func(*args, **kwargs, **solved)
+            if iscoroutinefunction(func):
+                return await func(*args, **kwargs, **solved)
+            else:
+                return func(*args, **kwargs, **solved)
 
     return auto_injected_func
 

@@ -4,8 +4,11 @@
 name: TestLatest
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
 
 jobs:
   cpython:
